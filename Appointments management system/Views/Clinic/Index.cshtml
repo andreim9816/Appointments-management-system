@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewBag.Title = "Clinics";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@if (ViewBag.clinics.Count != 0)
+{
+    <table class="table table-striped table-hover ">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Phone Number</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int count = 1;
+                foreach (var clinic in ViewBag.clinics)
+                {
+                        <tr>
+                            <td>@count</td>
+                            <td>@clinic.Name</td>
+                            <td>@clinic.PhoneNumber</td>
+
+                            <td>
+                                @Html.HttpMethodOverride(HttpVerbs.Put)
+                                @using (Html.BeginForm(actionName: "Details", controllerName: "Clinic", method: FormMethod.Get, routeValues: new { id = clinic.ClinicId }))
+                                {
+                                <button style="margin-left:5px" class="btn btn-info" type="submit">
+                                    Details
+                                </button>
+                                }
+                            </td>
+                        </tr>
+                    count = count + 1;
+                }
+            }
+        </tbody>
+    </table>
+}
+else
+{ 
+    <p>There are no clinics</p>
+}
+
+
+
+
+

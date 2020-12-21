@@ -1,0 +1,47 @@
+﻿@model Appointments_management_system.Models.Clinic
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>@ViewBag.Title</h2>
+<br />
+
+@Html.LabelFor(c => c.Name, "Clinic name:", new { style = "margin-right:10px" })
+@Html.DisplayFor(c => c.Name)
+<br />
+
+@Html.LabelFor(c => c.PhoneNumber, "Phone Number:", new { style = "margin-right:10px" })
+@Html.DisplayFor(c => c.PhoneNumber)
+<br />
+
+@Html.LabelFor(c => c.Address.Street, "Street:", new { style = "margin-right:10px" })
+@Html.DisplayFor(c => c.Address.Street)
+<br />
+
+@Html.LabelFor(c => c.Address.No, "No:", new { style = "margin-right:10px" })
+@if (@Model.Address.No != null)
+{
+    @Html.DisplayFor(c => c.Address.No)
+}
+else
+{
+    @Html.Display("No number provided!")
+}
+
+<br />
+
+@Html.LabelFor(c => c.Address.City, "City:", new { style = "margin-right:10px" })
+@Html.DisplayFor(c => c.Address.City)
+<br />
+<br />
+
+@using (Html.BeginForm(actionName: "Edit", controllerName: "Clinic", method: FormMethod.Get, routeValues: new { id = Model.ClinicId }))
+{
+    <button style="margin-right:5px" class="btn btn-info col-lg-1" type="submit">Update</button>
+}
+
+@using (Html.BeginForm(actionName: "Delete", controllerName: "Clinic", method: FormMethod.Post, routeValues: new { id = Model.ClinicId }))
+{
+    @Html.HttpMethodOverride(HttpVerbs.Delete)
+    <button style="margin-right:5px" class="btn btn-info col-lg-1" type="submit">Delete</button>
+}
