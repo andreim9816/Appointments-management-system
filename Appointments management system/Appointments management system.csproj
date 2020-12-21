@@ -172,10 +172,12 @@
     <Compile Include="Controllers\ClinicController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\SpecialityController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Clinic.cs" />
     <Compile Include="Models\ClinicAddressViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -253,6 +255,12 @@
     <Content Include="Views\Clinic\New.cshtml" />
     <Content Include="Views\Clinic\Details.cshtml" />
     <Content Include="Views\Clinic\Edit.cshtml" />
+    <Content Include="Views\Speciality\Index.cshtml" />
+    <Content Include="Views\Speciality\Edit.cshtml" />
+    <Content Include="Views\Speciality\New.cshtml" />
+    <Content Include="Views\View.cshtml" />
+    <Content Include="Views\Address\Index.cshtml" />
+    <Content Include="Views\Speciality\AddClinic.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

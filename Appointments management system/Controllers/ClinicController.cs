@@ -138,7 +138,8 @@ namespace Appointments_management_system.Controllers
                     return HttpNotFound("Couldn't find the clinic with id = " + id.ToString() + "!");
                 }
                 DbCtx.Addresses.Remove(clinic.Address);
-                DbCtx.Clinics.Remove(clinic);
+             // No need to call to remove clinic as EF makes sure the clinic is removed  
+             //   DbCtx.Clinics.Remove(clinic);
                 DbCtx.SaveChanges();
                 return RedirectToAction("Index", "Clinic");
             }

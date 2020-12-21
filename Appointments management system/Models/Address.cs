@@ -12,12 +12,12 @@ namespace Appointments_management_system.Models
         public int AddressId { get; set; }
 
         [Required]
-        [MinLength(3, ErrorMessage ="Street Name should have at least 3 characters"),
-        MaxLength(20, ErrorMessage ="Street Name should have maximum 20 characters")]
+        [MinLength(3, ErrorMessage = "Street Name should have at least 3 characters"),
+        MaxLength(20, ErrorMessage = "Street Name should have maximum 20 characters")]
         public string Street { get; set; }
 
         public int No { get; set; }
-        
+
         [Required]
         [MinLength(3, ErrorMessage = "City should have at least 3 characters"),
         MaxLength(20, ErrorMessage = "City should have maximum 20 characters")]
@@ -25,5 +25,6 @@ namespace Appointments_management_system.Models
 
         //one-to-one relationship
         public virtual Clinic Clinic { get; set; }
+
     }
 }

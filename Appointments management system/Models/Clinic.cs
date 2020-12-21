@@ -24,7 +24,6 @@ namespace Appointments_management_system.Models
 
         // many-to-many relationship
         public virtual ICollection<Speciality> Specialities { get; set; }
-
     }
 
     public class DbCtx : DbContext
@@ -36,7 +35,7 @@ namespace Appointments_management_system.Models
         }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Clinic> Clinics { get; set; }
-
+        public DbSet<Speciality> Specialities { get; set; }
     }
 
     public class Initp : DropCreateDatabaseAlways <DbCtx>
@@ -65,6 +64,10 @@ namespace Appointments_management_system.Models
                     Street = "Cuza Voda",
                     No = 8,
                     City = "Bucuresti",
+                },
+                Specialities = new List<Speciality> {
+                    new Speciality { SpecialityName = "Chirurgie" },
+                    new Speciality {SpecialityName = "Neurologie" }
                 }
             });
 
@@ -78,6 +81,9 @@ namespace Appointments_management_system.Models
                     Street = "1 Decembrie",
                     No = 44,
                     City = "Roman",
+                },
+                Specialities = new List<Speciality> {
+                    new Speciality { SpecialityName = "Cardiologie" }
                 }
             });
 

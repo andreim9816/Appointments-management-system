@@ -17,6 +17,5 @@ namespace Appointments_management_system.Models
 
         // many-to-many relationship
         public virtual ICollection<Clinic> Clinics { get; set; }
-
     }
 }
