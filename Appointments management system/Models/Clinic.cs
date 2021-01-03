@@ -73,21 +73,27 @@ namespace Appointments_management_system.Models
             {
                 SpecialityId = speciality1.SpecialityId,
                 FirstName = "Razvan",
-                LastName = "Florescu"
+                LastName = "Florescu",
+                PhoneNumber = "0741130693",
+                Details = "Specialized in Cardiothoracic Surgery"
             };
 
             Doctor doctor2 = new Doctor
             {
                 SpecialityId = speciality1.SpecialityId,
                 FirstName = "Mocanu",
-                LastName = "Ciprian"
+                LastName = "Ciprian",
+                PhoneNumber = "0755514235",
+                Details = "Specialized in Paediatric and Otolaryngology Surgery"
             };
 
             Doctor doctor3 = new Doctor
             {
                 SpecialityId = speciality3.SpecialityId,
                 FirstName = "Horoiu",
-                LastName = "Maximilian"
+                LastName = "Maximilian",
+                PhoneNumber = "0785524378",
+                Details = "Specialized in Geriatric Neurology and Epilepsy seizures"
             };
 
 

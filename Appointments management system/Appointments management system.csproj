@@ -270,6 +270,8 @@
     <Content Include="Views\Doctor\Index.cshtml" />
     <Content Include="Views\Doctor\DoctorsFilter.cshtml" />
     <Content Include="Views\Doctor\New.cshtml" />
+    <Content Include="Views\Doctor\Details.cshtml" />
+    <Content Include="Views\Doctor\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

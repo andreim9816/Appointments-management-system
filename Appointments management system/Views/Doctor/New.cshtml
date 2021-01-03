@@ -13,7 +13,7 @@
     <br />
     @Html.TextBoxFor(d => d.LastName, null, new { placeHolder = "Type in the doctor's last name", @class = "form-control" })
     @Html.ValidationMessageFor(d => d.LastName, "", new { @class = "text-danger" })
-    <br/>
+    <br />
 
     @Html.Label("FirstName", "First name:")
     <br />
@@ -21,12 +21,24 @@
     @Html.ValidationMessageFor(d => d.FirstName, "", new { @class = "text-danger" })
     <br />
 
+    @Html.Label("PhoneNumber", "Phone number: ")
+    <br />
+    @Html.TextBoxFor(d => d.PhoneNumber, null, new { placeHolder = "Type in the doctor's phone number", @class = "form-control" })
+    @Html.ValidationMessageFor(d => d.PhoneNumber, "", new { @class = "text-danger" })
+    <br />
+
+    @Html.Label("Details", "Details: ")
+    <br />
+    @Html.TextAreaFor(d => d.Details, new { placeHolder = "Type in the doctor's details", @class = "form-control", @rows = 3 })
+    @Html.ValidationMessageFor(d => d.Details, "", new { @class = "text-danger" })
+    <br />
+
     @Html.Label("Speciality", "Speciality:")
-    @Html.DropDownListFor(mv => mv.ChosenSpecialityId, new SelectList(Model.SpecialityList, "SpecialityId", "SpecialityName"), "Choose a Speciality", new { @class = "form-control" })
+    @Html.DropDownListFor(mv => mv.ChosenSpecialityId, new SelectList(Model.SpecialityList, "Value", "Text"), "Choose a Speciality", new { @class = "form-control" })
     <br />
 
     @Html.Label("Clinic", "Clinic:")
-    @Html.DropDownListFor(mv => mv.ChosenClinicId, new SelectList(Model.ClinicList, "ClinicId", "Name"), "Choose a Clinic", new { @class = "form-control" })
+    @Html.DropDownListFor(mv => mv.ChosenClinicId, new SelectList(Model.ClinicList, "Value", "Text"), "Choose a Clinic", new { @class = "form-control" })
     <br />
 
     <button class="btn btn-info" type="submit">

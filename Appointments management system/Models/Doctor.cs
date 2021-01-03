@@ -13,6 +13,8 @@ namespace Appointments_management_system.Models
         public int SpecialityId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Details { get; set; }
 
         // one-to-many relationship
         public int ClinicId { get; set; }

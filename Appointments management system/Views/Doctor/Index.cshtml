@@ -14,7 +14,6 @@
                 <th>#</th>
                 <th>Last Name</th>
                 <th>First Name</th>
-                <th>Clinic</th>
                 <th>Speciality</th>
             </tr>
         </thead>
@@ -27,10 +26,9 @@
                         <td>@count</td>
                         <td>@doctor.LastName</td>
                         <td>@doctor.FirstName</td>
-                        <td>@doctor.Clinic.Name</td>
                         <td>@ViewBag.SpecialityList[count - 1]</td>
                         <td>
-                            @Html.ActionLink("Details", "Details", "Clinic", new { id = doctor.ClinicId }, null)
+                            @Html.ActionLink("Details", "Details", "Doctor", new { id = doctor.DoctorId }, null)
                         </td>
                     </tr>
                     count = count + 1;
