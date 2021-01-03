@@ -170,6 +170,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AddressController.cs" />
     <Compile Include="Controllers\ClinicController.cs" />
+    <Compile Include="Controllers\DoctorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SpecialityController.cs" />
@@ -180,6 +181,9 @@
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Clinic.cs" />
     <Compile Include="Models\ClinicAddressViewModel.cs" />
+    <Compile Include="Models\ClinicSpecialityDoctorViewModel.cs" />
+    <Compile Include="Models\ClinicSpecialityViewModel.cs" />
+    <Compile Include="Models\Doctor.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Speciality.cs" />
@@ -260,7 +264,12 @@
     <Content Include="Views\Speciality\New.cshtml" />
     <Content Include="Views\View.cshtml" />
     <Content Include="Views\Address\Index.cshtml" />
-    <Content Include="Views\Speciality\AddClinic.cshtml" />
+    <Content Include="Views\Speciality\Clinics.cshtml" />
+    <Content Include="Views\Clinic\Specialities.cshtml" />
+    <Content Include="Views\Clinic\AddSpeciality.cshtml" />
+    <Content Include="Views\Doctor\Index.cshtml" />
+    <Content Include="Views\Doctor\DoctorsFilter.cshtml" />
+    <Content Include="Views\Doctor\New.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

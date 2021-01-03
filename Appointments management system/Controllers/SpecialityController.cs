@@ -23,7 +23,6 @@ namespace Appointments_management_system.Controllers
         public ActionResult New()
         {
             Speciality speciality = new Speciality();
-    //        speciality.Clinics = new List<Clinic>();
             return View(speciality);
         }
 
@@ -68,13 +67,6 @@ namespace Appointments_management_system.Controllers
             return HttpNotFound("Missing speciality id parameter!");
         }
 
-        [HttpPost]
-        public ActionResult AddClinic(int id, Clinic request)
-        {
-            //TODO
-            return View();
-        }
-
         [HttpGet]
         public ActionResult Edit(int ?id)
         {
@@ -83,6 +75,22 @@ namespace Appointments_management_system.Controllers
                 Speciality speciality = DbCtx.Specialities.Find(id);
 
                 if(speciality == null)
+                {
+                    return HttpNotFound("Couldn't find the speciality with id = " + id.ToString() + "!");
+                }
+                return View(speciality);
+            }
+            return HttpNotFound("Missing speciality id parameter!");
+        }
+
+        [HttpGet]
+        public ActionResult Clinics(int ?id)
+        {
+            if (id.HasValue)
+            {
+                Speciality speciality = DbCtx.Specialities.Find(id);
+
+                if (speciality == null)
                 {
                     return HttpNotFound("Couldn't find the speciality with id = " + id.ToString() + "!");
                 }
@@ -126,6 +134,9 @@ namespace Appointments_management_system.Controllers
                     return HttpNotFound("Couldn't find the speciality with the id " + id.ToString() + "!");
                 }
                 DbCtx.Specialities.Remove(speciality);
+                DbCtx.SaveChanges();
+                return RedirectToAction("Index");
+
             }
             return HttpNotFound("Missing speciality id parameter!");
         }

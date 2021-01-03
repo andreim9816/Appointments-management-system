@@ -24,15 +24,8 @@
                             <td>@count</td>
                             <td>@clinic.Name</td>
                             <td>@clinic.PhoneNumber</td>
-
                             <td>
-                                @Html.HttpMethodOverride(HttpVerbs.Put)
-                                @using (Html.BeginForm(actionName: "Details", controllerName: "Clinic", method: FormMethod.Get, routeValues: new { id = clinic.ClinicId }))
-                                {
-                                <button style="margin-left:5px" class="btn btn-info" type="submit">
-                                    Details
-                                </button>
-                                }
+                                @Html.ActionLink("Details", "Details", "Clinic", new { id = clinic.ClinicId }, null )
                             </td>
                         </tr>
                     count = count + 1;
