@@ -10,7 +10,7 @@ namespace Appointments_management_system.Controllers
     public class AddressController : Controller
     {
         // GET: Address
-        DbCtx DbCtx = new DbCtx();
+        ApplicationDbContext DbCtx = new ApplicationDbContext();
         public ActionResult Index()
         {
             List<Address> addresses = DbCtx.Addresses.ToList();

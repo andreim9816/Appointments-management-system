@@ -8,12 +8,18 @@ using Appointments_management_system.Models;
 
 namespace Appointments_management_system.Controllers
 {
+   // [Authorize(Roles = "Admin,registered_user,User")]
     public class ClinicController : Controller
     {
-        private DbCtx DbCtx = new DbCtx();
+        private ApplicationDbContext DbCtx = new ApplicationDbContext();
         // GET: Clinic
         public ActionResult Index()
         {
+            if(User.IsInRole("User"))
+            {
+                var x = 2;
+            }
+
             List<Clinic> clinics = DbCtx.Clinics.ToList();
             ViewBag.clinics = clinics;
             return View();

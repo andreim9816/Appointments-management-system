@@ -106,3 +106,6 @@ D:\Andrei\Facultate\AN 3\DAW\Appointments management system\Appointments managem
 D:\Andrei\Facultate\AN 3\DAW\Appointments management system\Appointments management system\obj\Debug\Appointments management system.dll
 D:\Andrei\Facultate\AN 3\DAW\Appointments management system\Appointments management system\obj\Debug\Appointments management system.pdb
 D:\Andrei\Facultate\AN 3\DAW\Appointments management system\Appointments management system\obj\Debug\Appointments management system.csprojAssemblyReference.cache
+D:\Andrei\Facultate\AN 3\DAW\Appointments management system\Appointments management system\obj\Debug\Appointments_management_system.Migrations.InitialCreate.resources
+D:\Andrei\Facultate\AN 3\DAW\Appointments management system\Appointments management system\obj\Debug\Appointments management system.csproj.GenerateResource.cache
+D:\Andrei\Facultate\AN 3\DAW\Appointments management system\Appointments management system\obj\Debug\Appointments_management_system.Migrations.addfields.resources

@@ -70,6 +70,21 @@ namespace Appointments_management_system.Models
         public string Email { get; set; }
 
         [Required]
+        [MinLength(3, ErrorMessage ="First name must be at least 3 characters long")]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [MinLength(3, ErrorMessage = "Last name must be at least 3 characters long")]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        [Required]
+        [StringLength(13, ErrorMessage = "CNP must have exactly 13 digits")]
+        [Display(Name = "CNP")]
+        public string CNP { get; set; }
+
+        [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]

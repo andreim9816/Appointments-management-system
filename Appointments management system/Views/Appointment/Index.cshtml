@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "Users"; }
+<h2>@ViewBag.Title</h2>
+<table class="table">
+    <thead>
+    <th>LastName</th>
+    <th>FirstName</th>
+    <th>CNP</th>
+    <th>Email</th>
+    </thead>
+    <tbody>
+        @foreach (var user in ViewBag.UsersList)
+        {
+            <tr>
+                <td>@user.LastName</td>
+                <td>@user.FirstName</td>
+                <td>@user.CNP</td>
+                <td>@user.Email</td>
+                <td>@Html.ActionLink("Update", "Edit", new { id = user.Id })</td>
+                <td>@Html.ActionLink("View details", "Details", new { id = user.Id })</td>
+            </tr>
+        }
+        </

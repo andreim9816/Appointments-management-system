@@ -10,7 +10,7 @@ namespace Appointments_management_system.Controllers
 {
     public class DoctorController : Controller
     {
-        private DbCtx DbCtx = new DbCtx();
+        private ApplicationDbContext DbCtx = new ApplicationDbContext();
 
         // GET: Doctor
         [HttpGet]
@@ -217,7 +217,7 @@ namespace Appointments_management_system.Controllers
         }
 
         [HttpDelete]
-        public ActionResult Delete(int ?id)
+        public ActionResult Delete(int? id)
         {
             if (id.HasValue)
             {

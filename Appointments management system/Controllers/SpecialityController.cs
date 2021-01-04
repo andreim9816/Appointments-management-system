@@ -9,7 +9,7 @@ namespace Appointments_management_system.Controllers
 {
     public class SpecialityController : Controller
     {
-        DbCtx DbCtx = new DbCtx();
+        ApplicationDbContext DbCtx = new ApplicationDbContext();
 
         // GET: Speciality
         public ActionResult Index()
@@ -134,6 +134,13 @@ namespace Appointments_management_system.Controllers
                     return HttpNotFound("Couldn't find the speciality with the id " + id.ToString() + "!");
                 }
                 DbCtx.Specialities.Remove(speciality);
+                foreach(var doctor in DbCtx.Doctors)
+                {
+                    if(doctor.SpecialityId == id)
+                    {
+                        DbCtx.Doctors.Remove(doctor);
+                    }
+                }
                 DbCtx.SaveChanges();
                 return RedirectToAction("Index");
 
