@@ -21,6 +21,7 @@ namespace Appointments_management_system.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string CNP { get; set; }
+        public virtual ICollection<Appointment> Appointments { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -36,6 +37,7 @@ namespace Appointments_management_system.Models
         public DbSet<Clinic> Clinics { get; set; }
         public DbSet<Speciality> Specialities { get; set; }
         public DbSet<Doctor> Doctors { get; set; }
+        public DbSet<Appointment> Appointments { get; set; }
 
         public static ApplicationDbContext Create()
         {
@@ -75,7 +77,17 @@ namespace Appointments_management_system.Models
                 FirstName = "Razvan",
                 LastName = "Florescu",
                 PhoneNumber = "0741130693",
-                Details = "Specialized in Cardiothoracic Surgery"
+                Details = "Specialized in Cardiothoracic Surgery",
+                Appointments = new List<Appointment>
+                {
+                    new Appointment
+                    {
+                        AppointmentDate = new System.DateTime(2021,1,9),
+                        AppointmentHour = "12:00",
+                        Details = "Control de rutina",
+                      //  ApplicationUserId = "2132"
+                    }
+                }
             };
 
             Doctor doctor2 = new Doctor
@@ -145,12 +157,6 @@ namespace Appointments_management_system.Models
             context.Clinics.Add(clinic1);
             context.Clinics.Add(clinic2);
             context.Clinics.Add(clinic3);
-
-            /*
-            context.Doctors.Add(doctor1);
-            context.Doctors.Add(doctor2);
-            context.Doctors.Add(doctor3);
-            */
 
             context.SaveChanges();
             base.Seed(context);

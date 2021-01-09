@@ -8,21 +8,17 @@ using Appointments_management_system.Models;
 
 namespace Appointments_management_system.Controllers
 {
-   // [Authorize(Roles = "Admin,registered_user,User")]
+    // [Authorize(Roles = "Admin,registered_user,User")]
     public class ClinicController : Controller
     {
         private ApplicationDbContext DbCtx = new ApplicationDbContext();
         // GET: Clinic
         public ActionResult Index()
         {
-            if(User.IsInRole("User"))
-            {
-                var x = 2;
-            }
-
             List<Clinic> clinics = DbCtx.Clinics.ToList();
             ViewBag.clinics = clinics;
             return View();
+
         }
 
         [HttpGet]
@@ -73,7 +69,6 @@ namespace Appointments_management_system.Controllers
         {
             if (id.HasValue)
             {
-                //TODO
                 Clinic clinic = DbCtx.Clinics.Find(id);
 
                 if (clinic == null)
@@ -93,7 +88,7 @@ namespace Appointments_management_system.Controllers
             return HttpNotFound("Missing clinic id parameter!");
         }
 
-        
+
         [HttpPut]
         public ActionResult AddSpeciality(int clinicId, ClinicSpecialityViewModel vmRequest)
         {
@@ -105,14 +100,12 @@ namespace Appointments_management_system.Controllers
                     if (clinic == null)
                     {
                         return HttpNotFound("Couldn't find the clinic with id " + clinicId.ToString() + "!");
-                    } 
+                    }
 
-                   if (TryUpdateModel(clinic))
+                    if (TryUpdateModel(clinic))
                     {
                         Speciality speciality = DbCtx.Specialities.Find(vmRequest.ChosenSpecialityId);
-
-                        //TODO check if the speciality already exists!!!!!!!!!!!!!!
-                        if(speciality == null)
+                        if (speciality == null)
                         {
                             return HttpNotFound("Couldn't find the speciality with id " + vmRequest.ChosenSpecialityId.ToString() + "!");
                         }
@@ -129,7 +122,7 @@ namespace Appointments_management_system.Controllers
                 return View(vmRequest);
             }
         }
-        
+
 
         [HttpGet]
         public ActionResult Details(int? id)
@@ -170,19 +163,26 @@ namespace Appointments_management_system.Controllers
             {
                 Clinic clinic = DbCtx.Clinics.Find(id);
                 ViewBag.id = id;
-                ClinicAddressViewModel vm = new ClinicAddressViewModel();
+                ClinicAddressViewModel vm = new ClinicAddressViewModel
+                {
+                    Name = clinic.Name,
+                    PhoneNumber = clinic.PhoneNumber,
+                    City = clinic.Address.City,
+                    No = clinic.Address.No,
+                    Street = clinic.Address.Street
+                };
 
-                vm.Name = clinic.Name;
+/*                vm.Name = clinic.Name;
                 vm.PhoneNumber = clinic.PhoneNumber;
                 vm.City = clinic.Address.City;
                 vm.No = clinic.Address.No;
-                vm.Street = clinic.Address.Street;
+                vm.Street = clinic.Address.Street;*/
 
                 if (clinic == null)
                 {
                     return HttpNotFound("Couldn't find the clinic with id = " + id.ToString() + "!");
                 }
-                
+
                 return View(vm);
             }
             return HttpNotFound("Missing clinic id parameter!");

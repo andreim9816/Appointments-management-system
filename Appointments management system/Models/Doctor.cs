@@ -19,5 +19,8 @@ namespace Appointments_management_system.Models
         // one-to-many relationship
         public int ClinicId { get; set; }
         public virtual Clinic Clinic { get; set; }
+
+        // many-to-one relationship
+        public virtual ICollection<Appointment> Appointments { get; set; }
     }
 }

@@ -23,7 +23,6 @@ namespace Appointments_management_system
                       "~/Scripts/bootstrap.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      
                       "~/Content/bootstrap custom.css",
                       "~/Content/site.css"));
         }

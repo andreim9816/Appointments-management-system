@@ -31,31 +31,35 @@ namespace Appointments_management_system
                 roleManager.Create(role);
                 // se adauga utilizatorul administrator
                 var user = new ApplicationUser();
-                user.CNP = "123456789101";
-                user.LastName = "Mano";
+                user.CNP = "1234567891012";
+                user.LastName = "AdminLastName";
+                user.FirstName = "AdminFirstName";
                 user.UserName = "admin@admin.com";
                 user.Email = "admin@admin.com";
-                var adminCreated = userManager.Create(user, "Admin2020!");
+                var adminCreated = userManager.Create(user, "parola");
                 if (adminCreated.Succeeded)
                 {
                     userManager.AddToRole(user.Id, "Admin");
                 }
             }
             // ATENTIE !!! Pentru proiecte, pentru a adauga un rol nou trebuie sa adaugati secventa:
-            if (!roleManager.RoleExists("registered_user"))
+            if (!roleManager.RoleExists("User"))
             {
                 // adaugati rolul specific aplicatiei voastre
                 var role = new IdentityRole();
-                role.Name = "registered_user";
+                role.Name = "User";
                 roleManager.Create(role);
                 // se adauga utilizatorul
                 var user = new ApplicationUser();
                 user.UserName = "test@test.com";
                 user.Email = "test@test.com";
-                var userCreated = userManager.Create(user, "user2020!");
+                user.LastName = "userTestLastName";
+                user.FirstName = "userTestFirstName";
+                user.CNP = "1110987654321";
+                var userCreated = userManager.Create(user, "parola");
                 if (userCreated.Succeeded)
                 {
-                    userManager.AddToRole(user.Id, "registered_user");
+                    userManager.AddToRole(user.Id, "User");
                 }
             }
         }

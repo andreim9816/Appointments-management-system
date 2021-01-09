@@ -26,7 +26,7 @@
                         <td>@doctor.LastName</td>
                         <td>@doctor.FirstName</td>
                         <td>
-                            @Html.ActionLink("Make an appointment", "New", "Appointment", new { id = doctor.ClinicId }, null)
+                            @Html.ActionLink("Make an appointment", "New", "Appointment", new { id = doctor.DoctorId }, null)
                         </td>
                     </tr>
                     count = count + 1;
