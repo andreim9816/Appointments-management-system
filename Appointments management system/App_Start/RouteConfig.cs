@@ -17,7 +17,7 @@ namespace Appointments_management_system
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Clinic", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

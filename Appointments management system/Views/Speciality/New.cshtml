@@ -14,9 +14,11 @@
 
     @Html.TextBoxFor(c => c.SpecialityName, null, new { placeHolder = "Type in the speciality's name", @class = "form-control" })
     @Html.ValidationMessageFor(c => c.SpecialityName, "", new { @class = "text-danger" })
-    <br/>
+    <br />
+    <br />
     <button class="btn btn-info" type="submit">
         Create
     </button>
 }
+
 

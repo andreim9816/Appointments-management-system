@@ -101,6 +101,7 @@ D:\Andrei\Facultate\AN 3\DAW\Appointments management system\Appointments managem
 D:\Andrei\Facultate\AN 3\DAW\Appointments management system\Appointments management system\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 D:\Andrei\Facultate\AN 3\DAW\Appointments management system\Appointments management system\bin\Microsoft.Owin.Security.OAuth.xml
 D:\Andrei\Facultate\AN 3\DAW\Appointments management system\Appointments management system\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\Andrei\Facultate\AN 3\DAW\Appointments management system\Appointments management system\obj\Debug\Appointments management system.csprojAssemblyReference.cache
 D:\Andrei\Facultate\AN 3\DAW\Appointments management system\Appointments management system\obj\Debug\Appointments_management_system.Migrations.InitialCreate.resources
 D:\Andrei\Facultate\AN 3\DAW\Appointments management system\Appointments management system\obj\Debug\Appointments_management_system.Migrations.Commentedfields.resources
 D:\Andrei\Facultate\AN 3\DAW\Appointments management system\Appointments management system\obj\Debug\Appointments_management_system.Migrations.Uncommentfields.resources
@@ -109,9 +110,12 @@ D:\Andrei\Facultate\AN 3\DAW\Appointments management system\Appointments managem
 D:\Andrei\Facultate\AN 3\DAW\Appointments management system\Appointments management system\obj\Debug\Appointments_management_system.Migrations.ModifiedAppointmentfields.resources
 D:\Andrei\Facultate\AN 3\DAW\Appointments management system\Appointments management system\obj\Debug\Appointments_management_system.Migrations.ChangedApplicationUserIdtypeinAppointmentmodel.resources
 D:\Andrei\Facultate\AN 3\DAW\Appointments management system\Appointments management system\obj\Debug\Appointments_management_system.Migrations.ChangedChosenAppointmentHourtype.resources
+D:\Andrei\Facultate\AN 3\DAW\Appointments management system\Appointments management system\obj\Debug\Appointments_management_system.Migrations.Cleanupregex.resources
+D:\Andrei\Facultate\AN 3\DAW\Appointments management system\Appointments management system\obj\Debug\Appointments_management_system.Migrations.details.resources
+D:\Andrei\Facultate\AN 3\DAW\Appointments management system\Appointments management system\obj\Debug\Appointments_management_system.Migrations.Addedanothervalidator.resources
+D:\Andrei\Facultate\AN 3\DAW\Appointments management system\Appointments management system\obj\Debug\Appointments_management_system.Migrations.more.resources
 D:\Andrei\Facultate\AN 3\DAW\Appointments management system\Appointments management system\obj\Debug\Appointments management system.csproj.GenerateResource.cache
 D:\Andrei\Facultate\AN 3\DAW\Appointments management system\Appointments management system\obj\Debug\Appointments management system.csproj.CoreCompileInputs.cache
 D:\Andrei\Facultate\AN 3\DAW\Appointments management system\Appointments management system\obj\Debug\Appointments management system.csproj.CopyComplete
 D:\Andrei\Facultate\AN 3\DAW\Appointments management system\Appointments management system\obj\Debug\Appointments management system.dll
 D:\Andrei\Facultate\AN 3\DAW\Appointments management system\Appointments management system\obj\Debug\Appointments management system.pdb
-D:\Andrei\Facultate\AN 3\DAW\Appointments management system\Appointments management system\obj\Debug\Appointments management system.csprojAssemblyReference.cache

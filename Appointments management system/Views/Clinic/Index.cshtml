@@ -4,43 +4,40 @@
 }
 
 <h2>@ViewBag.Title</h2>
-<br/>
+<br />
 
 @if (ViewBag.clinics.Count != 0)
 {
-    <table class="table table-striped table-hover ">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Phone Number</th>
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                int count = 1;
-                foreach (var clinic in ViewBag.clinics)
+    foreach (var clinic in ViewBag.Clinics)
+    {
+        <div class="panel panel-default">
+            <div class="panel-body">
+                @Html.Label("ClinicName", "Clinic:")
+                <br />
+                <p>@clinic.Name</p>
+
+                @Html.Label("Phone", "Phone Number:")
+                <br />
+                <p>@clinic.PhoneNumber</p>
+
+                @using (Html.BeginForm(actionName: "Details", controllerName: "Clinic", method: FormMethod.Get, routeValues: new { id = clinic.ClinicId }))
                 {
-                        <tr>
-                            <td>@count</td>
-                            <td>@clinic.Name</td>
-                            <td>@clinic.PhoneNumber</td>
-                            <td>
-                                @Html.ActionLink("Details", "Details", "Clinic", new { id = clinic.ClinicId }, null )
-                            </td>
-                        </tr>
-                    count = count + 1;
+                    <button class=" btn btn-info">Details</button>
                 }
-            }
-        </tbody>
-    </table>
+            </div>
+        </div>
+    }
 }
 else
-{ 
-    <p>There are no clinics</p>
+{
+    <p>There are no clincs!</p>
 }
+<br />
 
-
-
-
-
+@if (User.IsInRole("Admin"))
+{
+    using (Html.BeginForm(actionName: "New", controllerName: "Clinic", method: FormMethod.Get))
+    {
+        <button class="btn btn-info">New clinic</button>
+    }
+}

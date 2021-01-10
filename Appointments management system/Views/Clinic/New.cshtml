@@ -41,6 +41,18 @@
     @Html.ValidationMessageFor(c => c.City, "", new { @class = "text-danger" })
     <br />
 
+    @Html.LabelFor(b => b.SpecialityList, "Choose speciality:")
+    <br />
+    for (int i = 0; i < Model.SpecialityList.Count(); i++)
+    {
+        @Html.HiddenFor(b => b.SpecialityList[i].Id)
+        @Html.HiddenFor(b => b.SpecialityList[i].Name)
+        @Html.CheckBoxFor(b => b.SpecialityList[i].IsChecked)
+        @Html.DisplayFor(b => b.SpecialityList[i].Name)
+        <br />
+    }
+    <br />
+
     <button class="btn btn-info" type="submit">
         Create
     </button>

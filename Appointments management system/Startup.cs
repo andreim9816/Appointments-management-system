@@ -36,7 +36,7 @@ namespace Appointments_management_system
                 user.FirstName = "AdminFirstName";
                 user.UserName = "admin@admin.com";
                 user.Email = "admin@admin.com";
-                var adminCreated = userManager.Create(user, "parola");
+                var adminCreated = userManager.Create(user, "Parola2020!");
                 if (adminCreated.Succeeded)
                 {
                     userManager.AddToRole(user.Id, "Admin");
@@ -53,10 +53,10 @@ namespace Appointments_management_system
                 var user = new ApplicationUser();
                 user.UserName = "test@test.com";
                 user.Email = "test@test.com";
-                user.LastName = "userTestLastName";
-                user.FirstName = "userTestFirstName";
+                user.LastName = "Mano";
+                user.FirstName = "Andrei";
                 user.CNP = "1110987654321";
-                var userCreated = userManager.Create(user, "parola");
+                var userCreated = userManager.Create(user, "Parola2020!");
                 if (userCreated.Succeeded)
                 {
                     userManager.AddToRole(user.Id, "User");

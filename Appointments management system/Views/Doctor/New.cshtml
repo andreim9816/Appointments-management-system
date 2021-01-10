@@ -38,10 +38,37 @@
     <br />
 
     @Html.Label("Clinic", "Clinic:")
-    @Html.DropDownListFor(mv => mv.ChosenClinicId, new SelectList(Model.ClinicList, "Value", "Text"), "Choose a Clinic", new { @class = "form-control" })
+    @Html.DropDownListFor(mv => mv.ChosenClinicId, Model.ClinicList, new { @class = "form-control" })
     <br />
 
     <button class="btn btn-info" type="submit">
         Create
     </button>
+}
+
+
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+
+@section scripts {
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script>
+        $(function () {
+            $('#ChosenSpecialityId')
+                .on('change', function (e) {
+                    let specialityId = $("#ChosenSpecialityId").val();
+                $.ajax({
+                    url: '@Url.Action("GetAllClinicsFromSpeciality", "Speciality")',
+                    type: 'GET',
+                    data: { id: specialityId },
+                    success: function (data) {
+                        $("#ChosenClinicId").empty();
+
+                        $(data).each(function () {
+                            $("#ChosenClinicId").append($("<option></option>").val(this.Value).html(this.Text));
+                        });
+                    }
+                })
+            })
+        });
+    </script>
 }

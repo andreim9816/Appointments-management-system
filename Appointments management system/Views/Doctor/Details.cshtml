@@ -23,13 +23,16 @@
 <br />
 <br />
 
-@using (Html.BeginForm(actionName: "Edit", controllerName: "Doctor", method: FormMethod.Get, routeValues: new { id = Model.DoctorId }))
+@if (User.IsInRole("Admin"))
 {
-    <button style="margin-right:5px" class="btn btn-info col-lg-1" type="submit">Update</button>
-}
+    using (Html.BeginForm(actionName: "Edit", controllerName: "Doctor", method: FormMethod.Get, routeValues: new { id = Model.DoctorId }))
+    {
+        <button style="margin-right:5px" class="btn btn-info col-lg-1" type="submit">Update</button>
+    }
 
-@using (Html.BeginForm(actionName: "Delete", controllerName: "Doctor", method: FormMethod.Post, routeValues: new { id = Model.DoctorId }))
-{
-    @Html.HttpMethodOverride(HttpVerbs.Delete)
-    <button style="margin-right:5px" class="btn btn-info col-lg-1" type="submit">Delete</button>
+    using (Html.BeginForm(actionName: "Delete", controllerName: "Doctor", method: FormMethod.Post, routeValues: new { id = Model.DoctorId }))
+    {
+        @Html.HttpMethodOverride(HttpVerbs.Delete)
+        <button style="margin-right:5px" class="btn btn-info col-lg-1" type="submit">Delete</button>
+    }
 }

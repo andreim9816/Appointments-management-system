@@ -10,12 +10,15 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Appointments_management_system.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
 
 namespace Appointments_management_system.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
+        private ApplicationDbContext DbCtx = new ApplicationDbContext();
+
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -23,7 +26,7 @@ namespace Appointments_management_system.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -35,9 +38,9 @@ namespace Appointments_management_system.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -121,7 +124,7 @@ namespace Appointments_management_system.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -152,17 +155,18 @@ namespace Appointments_management_system.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser {
+                var user = new ApplicationUser
+                {
                     CNP = model.CNP,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     UserName = model.Email,
-                    Email = model.Email 
+                    Email = model.Email
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
@@ -496,6 +500,105 @@ namespace Appointments_management_system.Controllers
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             }
         }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public ActionResult Index()
+        {
+            List<ApplicationUser> users = DbCtx.Users.ToList();
+            ViewBag.users = users;
+
+            return View();
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public ActionResult Details(string? id)
+        {
+            if (id != null)
+            {
+                ApplicationUser user = DbCtx.Users.Find(id);
+                if (user != null)
+                {
+                    return View(user);
+                }
+                return HttpNotFound("Couldn't find the user with id " + id + "!");
+            }
+            return HttpNotFound("Missing user id parameter!");
+        }
+
+        [HttpDelete]
+        [Authorize(Roles = "Admin")]
+        public ActionResult Delete(string? id)
+        {
+            if (id != null)
+            {
+                ApplicationUser user = DbCtx.Users.Find(id);
+                if (user == null)
+                {
+                    return HttpNotFound("Couldn't find the user with id = " + id + "!");
+                }
+
+                if(user.Id == User.Identity.GetUserId())
+                {
+                    return HttpNotFound("Do NOT remove yourself!");
+                }
+
+                DbCtx.Users.Remove(user);
+                DbCtx.SaveChanges();
+
+                return RedirectToAction("Index", "Account");
+            }
+            return HttpNotFound("Missing user id parameter!");
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public ActionResult Edit(string? id)
+        {
+            if (id != null)
+            {
+                ApplicationUser user = DbCtx.Users.Find(id);
+                if (user == null)
+                {
+                    return HttpNotFound("Couldn't find the user with id = " + id + "!");
+                }
+                ViewBag.id = id;
+
+                return View(user);
+            }
+            return HttpNotFound("Missing user id parameter!");
+        }
+
+        [HttpPut]
+        [Authorize(Roles = "Admin")]
+        public ActionResult Edit(string id, ApplicationUser request)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    ApplicationUser user = DbCtx.Users.Find(id);
+
+                    if (TryUpdateModel(user))
+                    {
+                        user.Email = request.Email;
+                        user.FirstName = request.FirstName;
+                        user.LastName = request.LastName;
+                        user.CNP = request.CNP;
+
+                        DbCtx.SaveChanges();
+                    }
+                    return RedirectToAction("Index", "Clinic");
+                }
+                return View(request);
+            }
+            catch (Exception e)
+            {
+                return View(request);
+            }
+        }
+
         #endregion
     }
 }

@@ -8,11 +8,13 @@ using Appointments_management_system.Models;
 
 namespace Appointments_management_system.Controllers
 {
-    // [Authorize(Roles = "Admin,registered_user,User")]
+    [Authorize(Roles = "Admin")]
     public class ClinicController : Controller
     {
         private ApplicationDbContext DbCtx = new ApplicationDbContext();
-        // GET: Clinic
+
+        [HttpGet]
+        [AllowAnonymous]
         public ActionResult Index()
         {
             List<Clinic> clinics = DbCtx.Clinics.ToList();
@@ -25,6 +27,7 @@ namespace Appointments_management_system.Controllers
         public ActionResult New()
         {
             ClinicAddressViewModel clinicAddressViewModel = new ClinicAddressViewModel();
+            clinicAddressViewModel.SpecialityList = GetAllSpecialities();
             return View(clinicAddressViewModel);
         }
 
@@ -35,7 +38,7 @@ namespace Appointments_management_system.Controllers
             {
                 if (ModelState.IsValid)
                 {
-
+                    var selectedSpecialities = objectRequest.SpecialityList.Where(obj => obj.IsChecked).ToList();
                     Address address = new Address
                     {
                         Street = objectRequest.Street,
@@ -51,6 +54,12 @@ namespace Appointments_management_system.Controllers
                         Specialities = new List<Speciality>()
                     };
 
+                    foreach(var spec in selectedSpecialities)
+                    {
+                        Speciality speciality = DbCtx.Specialities.Find(spec.Id);
+                        clinic.Specialities.Add(speciality);
+                    }
+
                     DbCtx.Addresses.Add(address);
                     DbCtx.Clinics.Add(clinic);
                     DbCtx.SaveChanges();
@@ -65,66 +74,7 @@ namespace Appointments_management_system.Controllers
         }
 
         [HttpGet]
-        public ActionResult AddSpeciality(int? id)
-        {
-            if (id.HasValue)
-            {
-                Clinic clinic = DbCtx.Clinics.Find(id);
-
-                if (clinic == null)
-                {
-                    return HttpNotFound("Couldn't find the clinic with id " + id.ToString() + "!");
-                }
-
-                ClinicSpecialityViewModel vm = new ClinicSpecialityViewModel
-                {
-                    ClinicId = (int)id,
-                    ClinicName = clinic.Name,
-                    SpecialityType = DbCtx.Specialities.ToList()
-                };
-
-                return View(vm);
-            }
-            return HttpNotFound("Missing clinic id parameter!");
-        }
-
-
-        [HttpPut]
-        public ActionResult AddSpeciality(int clinicId, ClinicSpecialityViewModel vmRequest)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    Clinic clinic = DbCtx.Clinics.Find(clinicId);
-                    if (clinic == null)
-                    {
-                        return HttpNotFound("Couldn't find the clinic with id " + clinicId.ToString() + "!");
-                    }
-
-                    if (TryUpdateModel(clinic))
-                    {
-                        Speciality speciality = DbCtx.Specialities.Find(vmRequest.ChosenSpecialityId);
-                        if (speciality == null)
-                        {
-                            return HttpNotFound("Couldn't find the speciality with id " + vmRequest.ChosenSpecialityId.ToString() + "!");
-                        }
-
-                        clinic.Specialities.Add(speciality);
-                        DbCtx.SaveChanges();
-                    }
-                    return RedirectToAction("Index", "Clinic");
-                }
-                return View(vmRequest);
-            }
-            catch (Exception e)
-            {
-                return View(vmRequest);
-            }
-        }
-
-
-        [HttpGet]
+        [AllowAnonymous]
         public ActionResult Details(int? id)
         {
             if (id.HasValue)
@@ -140,6 +90,7 @@ namespace Appointments_management_system.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult Specialities(int? id)
         {
             /* For a specific Clinic, get all its specialities */
@@ -157,30 +108,33 @@ namespace Appointments_management_system.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles ="Admin")]
         public ActionResult Edit(int? id)
         {
             if (id.HasValue)
             {
                 Clinic clinic = DbCtx.Clinics.Find(id);
+
+                if (clinic == null)
+                {
+                    return HttpNotFound("Couldn't find the clinic with id = " + id.ToString() + "!");
+                }
+
                 ViewBag.id = id;
+
                 ClinicAddressViewModel vm = new ClinicAddressViewModel
                 {
                     Name = clinic.Name,
                     PhoneNumber = clinic.PhoneNumber,
                     City = clinic.Address.City,
                     No = clinic.Address.No,
-                    Street = clinic.Address.Street
+                    Street = clinic.Address.Street,
+                    SpecialityList = GetAllSpecialities()
                 };
 
-/*                vm.Name = clinic.Name;
-                vm.PhoneNumber = clinic.PhoneNumber;
-                vm.City = clinic.Address.City;
-                vm.No = clinic.Address.No;
-                vm.Street = clinic.Address.Street;*/
-
-                if (clinic == null)
+                foreach(Speciality spec in clinic.Specialities)
                 {
-                    return HttpNotFound("Couldn't find the clinic with id = " + id.ToString() + "!");
+                    vm.SpecialityList.FirstOrDefault(obj => obj.Id == spec.SpecialityId).IsChecked = true;
                 }
 
                 return View(vm);
@@ -189,6 +143,7 @@ namespace Appointments_management_system.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id, ClinicAddressViewModel request)
         {
             try
@@ -196,6 +151,7 @@ namespace Appointments_management_system.Controllers
                 if (ModelState.IsValid)
                 {
                     Clinic clinic = DbCtx.Clinics.Find(id);
+                    var selectedSpecialities = request.SpecialityList.Where(obj => obj.IsChecked).ToList();
 
                     if (TryUpdateModel(clinic))
                     {
@@ -205,6 +161,14 @@ namespace Appointments_management_system.Controllers
                         clinic.Address.No = request.No;
                         clinic.Address.City = request.City;
 
+                        clinic.Specialities.Clear();
+                        clinic.Specialities = new List<Speciality>();
+
+                        for(int i = 0; i < selectedSpecialities.Count(); i++)
+                        {
+                            Speciality speciality = DbCtx.Specialities.Find(selectedSpecialities[i].Id);
+                            clinic.Specialities.Add(speciality);
+                        }
                         DbCtx.SaveChanges();
                     }
                     return RedirectToAction("Index", "Clinic");
@@ -218,6 +182,7 @@ namespace Appointments_management_system.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id.HasValue)
@@ -228,12 +193,28 @@ namespace Appointments_management_system.Controllers
                     return HttpNotFound("Couldn't find the clinic with id = " + id.ToString() + "!");
                 }
                 DbCtx.Addresses.Remove(clinic.Address);
-                // No need to call to remove clinic as EF makes sure the clinic is removed  
-                //   DbCtx.Clinics.Remove(clinic);
+                DbCtx.Clinics.Remove(clinic);
+
                 DbCtx.SaveChanges();
                 return RedirectToAction("Index", "Clinic");
             }
             return HttpNotFound("Missing clinic id parameter!");
+        }
+
+        [NonAction]
+        public List<CheckBoxSpecialityViewModel> GetAllSpecialities()
+        {
+            var checkBoxList = new List<CheckBoxSpecialityViewModel>();
+            foreach (var spec in DbCtx.Specialities.ToList())
+            {
+                checkBoxList.Add(new CheckBoxSpecialityViewModel
+                {
+                    Id = spec.SpecialityId,
+                    Name = spec.SpecialityName,
+                    IsChecked = false
+                });
+            }
+            return checkBoxList;
         }
     }
 }

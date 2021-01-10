@@ -8,12 +8,13 @@ using System.Diagnostics;
 
 namespace Appointments_management_system.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class DoctorController : Controller
     {
         private ApplicationDbContext DbCtx = new ApplicationDbContext();
 
-        // GET: Doctor
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult Index()
         {
             List<Doctor> Doctors = DbCtx.Doctors.ToList();
@@ -31,6 +32,7 @@ namespace Appointments_management_system.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult DoctorsFilter(int? SpecialityId, int? ClinicId)
         {
             var doctorList = DbCtx.Doctors
@@ -59,7 +61,7 @@ namespace Appointments_management_system.Controllers
             ClinicSpecialityDoctorViewModel vm = new ClinicSpecialityDoctorViewModel
             {
                 SpecialityList = GetAllSpecialities(),
-                ClinicList = GetAllClinics(),
+                ClinicList = new List<SelectListItem>()
             };
 
             return View(vm);
@@ -70,6 +72,9 @@ namespace Appointments_management_system.Controllers
         {
             try
             {
+                vm.SpecialityList = GetAllSpecialities();
+                vm.ClinicList = new List<SelectListItem>();
+
                 if (ModelState.IsValid)
                 {
                     // Checks that the chosen clinic has the chosen speciality
@@ -99,8 +104,10 @@ namespace Appointments_management_system.Controllers
                     {
                         LastName = vm.LastName,
                         FirstName = vm.FirstName,
+                        Details = vm.Details,
                         SpecialityId = vm.ChosenSpecialityId,
-                        Clinic = clinic
+                        PhoneNumber = vm.PhoneNumber,
+                        ClinicId = vm.ChosenClinicId
                     };
 
                     DbCtx.Doctors.Add(doctor);
@@ -117,6 +124,7 @@ namespace Appointments_management_system.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult Details(int? id)
         {
             if (id.HasValue)
@@ -142,7 +150,7 @@ namespace Appointments_management_system.Controllers
                 ClinicSpecialityDoctorViewModel vm = new ClinicSpecialityDoctorViewModel
                 {
                     SpecialityList = GetAllSpecialities(),
-                    ClinicList = GetAllClinics(),
+                    ClinicList = new List<SelectListItem>(),
                     LastName = doctor.LastName,
                     FirstName = doctor.FirstName,
                     PhoneNumber = doctor.PhoneNumber,
@@ -167,6 +175,8 @@ namespace Appointments_management_system.Controllers
         {
             try
             {
+                request.ClinicList = new List<SelectListItem>();
+                request.SpecialityList = GetAllSpecialities();
                 if (ModelState.IsValid)
                 {
                     /* Checks that a clinic has the speciality */

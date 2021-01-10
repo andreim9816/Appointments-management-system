@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -18,7 +19,16 @@ namespace Appointments_management_system.Models
             return userIdentity;
         }
 
+        [Required(ErrorMessage = "First name must exist!")]
+        [MinLength(3, ErrorMessage = "First name should be at least 3 characters long"),
+        MaxLength(20, ErrorMessage = "First name should have maximum 20 characters")]
+        [RegularExpression(@"^[A-Z][a-zA-Z]+$", ErrorMessage = "First name should start with Capital letter and can only contains letters")]
         public string FirstName { get; set; }
+
+        [Required(ErrorMessage = "Last name must exist!")]
+        [MinLength(3, ErrorMessage = "Last name should be at least 3 characters long"),
+        MaxLength(20, ErrorMessage = "Last name should have maximum 20 characters")]
+        [RegularExpression(@"^[A-Z][a-zA-Z]+$", ErrorMessage = "Last name should start with Capital letter and can only contains letters")]
         public string LastName { get; set; }
         public string CNP { get; set; }
         public virtual ICollection<Appointment> Appointments { get; set; }
@@ -82,10 +92,9 @@ namespace Appointments_management_system.Models
                 {
                     new Appointment
                     {
-                        AppointmentDate = new System.DateTime(2021,1,9),
-                        AppointmentHour = "12:00",
-                        Details = "Control de rutina",
-                      //  ApplicationUserId = "2132"
+                        AppointmentDate = new System.DateTime(2021, 2, 15),
+                        AppointmentHour = "15:00",
+                        Details = "Control de rutina"
                     }
                 }
             };
@@ -95,7 +104,7 @@ namespace Appointments_management_system.Models
                 SpecialityId = speciality1.SpecialityId,
                 FirstName = "Mocanu",
                 LastName = "Ciprian",
-                PhoneNumber = "0755514235",
+                PhoneNumber = "0757175915",
                 Details = "Specialized in Paediatric and Otolaryngology Surgery"
             };
 
@@ -104,15 +113,15 @@ namespace Appointments_management_system.Models
                 SpecialityId = speciality3.SpecialityId,
                 FirstName = "Horoiu",
                 LastName = "Maximilian",
-                PhoneNumber = "0785524378",
+                PhoneNumber = "0755514235",
                 Details = "Specialized in Geriatric Neurology and Epilepsy seizures"
             };
 
 
             Clinic clinic1 = new Clinic
             {
-                Name = "Sf. Andrei",
-                PhoneNumber = "0745563298",
+                Name = "Sf Andrei",
+                PhoneNumber = "0794999936",
                 Address = new Address
                 {
                     Street = "Tineretului",
@@ -124,7 +133,7 @@ namespace Appointments_management_system.Models
             Clinic clinic2 = new Clinic
             {
                 Name = "ProMed",
-                PhoneNumber = "0798767868",
+                PhoneNumber = "0794965236",
                 Address = new Address
                 {
                     Street = "Cuza Voda",
@@ -134,7 +143,7 @@ namespace Appointments_management_system.Models
                 Specialities = new List<Speciality> {
                    speciality1, speciality2
                 },
-                Doctors = new List<Doctor> { doctor1, doctor2 }
+                Doctors = new List<Doctor>() { doctor1, doctor2 }
             };
 
             Clinic clinic3 = new Clinic
@@ -143,7 +152,7 @@ namespace Appointments_management_system.Models
                 PhoneNumber = "0747767868",
                 Address = new Address
                 {
-                    Street = "1 Decembrie",
+                    Street = "Rahovei",
                     No = 44,
                     City = "Roman",
                 },

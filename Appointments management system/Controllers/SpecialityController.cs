@@ -7,11 +7,13 @@ using Appointments_management_system.Models;
 
 namespace Appointments_management_system.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class SpecialityController : Controller
     {
         ApplicationDbContext DbCtx = new ApplicationDbContext();
 
-        // GET: Speciality
+        [HttpGet]
+        [AllowAnonymous]
         public ActionResult Index()
         {
             List<Speciality> specialities = DbCtx.Specialities.ToList();
@@ -31,7 +33,7 @@ namespace Appointments_management_system.Controllers
         {
             try
             {
-                if(ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
                     Speciality speciality = new Speciality();
                     speciality.Clinics = new List<Clinic>();
@@ -42,19 +44,20 @@ namespace Appointments_management_system.Controllers
                     return RedirectToAction("Index");
                 }
                 return View(request);
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 return View(request);
             }
         }
 
         [HttpGet]
-        public ActionResult AddClinic(int ?id)
+        public ActionResult AddClinic(int? id)
         {
-            if(id.HasValue)
+            if (id.HasValue)
             {
                 Speciality speciality = DbCtx.Specialities.Find(id);
-                if(speciality == null) 
+                if (speciality == null)
                 {
                     return HttpNotFound("Couldn't find the speciality with id = " + id.ToString() + "!");
                 }
@@ -68,13 +71,13 @@ namespace Appointments_management_system.Controllers
         }
 
         [HttpGet]
-        public ActionResult Edit(int ?id)
+        public ActionResult Edit(int? id)
         {
-            if(id.HasValue)
+            if (id.HasValue)
             {
                 Speciality speciality = DbCtx.Specialities.Find(id);
 
-                if(speciality == null)
+                if (speciality == null)
                 {
                     return HttpNotFound("Couldn't find the speciality with id = " + id.ToString() + "!");
                 }
@@ -84,8 +87,10 @@ namespace Appointments_management_system.Controllers
         }
 
         [HttpGet]
-        public ActionResult Clinics(int ?id)
+        [AllowAnonymous]
+        public ActionResult Clinics(int? id)
         {
+            // get all the clinics within a clinic 
             if (id.HasValue)
             {
                 Speciality speciality = DbCtx.Specialities.Find(id);
@@ -124,19 +129,19 @@ namespace Appointments_management_system.Controllers
         }
 
         [HttpDelete]
-        public ActionResult Delete(int ?id)
+        public ActionResult Delete(int? id)
         {
-            if(id.HasValue)
+            if (id.HasValue)
             {
                 Speciality speciality = DbCtx.Specialities.Find(id);
-                if(speciality == null)
+                if (speciality == null)
                 {
                     return HttpNotFound("Couldn't find the speciality with the id " + id.ToString() + "!");
                 }
                 DbCtx.Specialities.Remove(speciality);
-                foreach(var doctor in DbCtx.Doctors)
+                foreach (var doctor in DbCtx.Doctors)
                 {
-                    if(doctor.SpecialityId == id)
+                    if (doctor.SpecialityId == id)
                     {
                         DbCtx.Doctors.Remove(doctor);
                     }
@@ -146,6 +151,28 @@ namespace Appointments_management_system.Controllers
 
             }
             return HttpNotFound("Missing speciality id parameter!");
+        }
+
+
+        public JsonResult GetAllClinicsFromSpeciality(int id)
+        {
+            Speciality spec = DbCtx.Specialities.Find(id);
+
+            var selectList = spec.Clinics.Select(c => new
+            {
+                Value = c.ClinicId.ToString(),
+                Text = c.Name
+            });
+
+          /*  foreach (var clinic in spec.Clinics)
+            {
+                selectList.Add(new SelectListItem
+                {
+                    Value = clinic.ClinicId.ToString(),
+                    Text = clinic.Name
+                });
+            }*/
+            return Json(selectList, JsonRequestBehavior.AllowGet);
         }
     }
 }

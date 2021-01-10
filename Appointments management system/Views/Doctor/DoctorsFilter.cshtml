@@ -14,6 +14,14 @@
                 <th>#</th>
                 <th>Last Name</th>
                 <th>First Name</th>
+                @if (User.IsInRole("User"))
+                {
+                    <th>Appointment</th>
+                }
+                @if (User.IsInRole("Admin"))
+                {
+                    <th>Edit</th>
+                }
             </tr>
         </thead>
         <tbody>
@@ -25,9 +33,19 @@
                         <td>@count</td>
                         <td>@doctor.LastName</td>
                         <td>@doctor.FirstName</td>
-                        <td>
-                            @Html.ActionLink("Make an appointment", "New", "Appointment", new { id = doctor.DoctorId }, null)
-                        </td>
+                        @if (User.IsInRole("User"))
+                        {
+                            <td>
+                                @Html.ActionLink("Make an appointment", "New", "Appointment", new { id = doctor.DoctorId }, null)
+                            </td>
+                        }
+
+                        @if(User.IsInRole("Admin"))
+                        {
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", "Doctor", new { id = doctor.DoctorId }, null)
+                    </td>
+                        }
                     </tr>
                     count = count + 1;
                 }

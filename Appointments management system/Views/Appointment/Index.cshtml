@@ -1,5 +1,12 @@
 ﻿@{
-    ViewBag.Title = "My appointments";
+    if(User.IsInRole("Admin"))
+    {
+        ViewBag.Title = "Appointments";
+    } else
+    {
+        ViewBag.Title = "My appointments";
+    }
+
 }
 
 <h2>@ViewBag.Title</h2>
@@ -15,6 +22,8 @@
                 <th>Doctor</th>
                 <th>Date</th>
                 <th>Hour</th>
+                <th>Edit</th>
+                <th>Details</th>
             </tr>
         </thead>
         <tbody>

@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace Appointments_management_system.Controllers
 {
+    [Authorize]
     public class AppointmentController : Controller
     {
         private ApplicationDbContext DbCtx = new ApplicationDbContext();
@@ -16,14 +17,24 @@ namespace Appointments_management_system.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            var userId = this.User.Identity.GetUserId();
-            List<Appointment> appointmentList = DbCtx.Appointments.Where(obj => obj.ApplicationUserId == userId).ToList();
+            List<Appointment> appointmentList;
+            if (User.IsInRole("User"))
+            {
+                var userId = this.User.Identity.GetUserId();
+                appointmentList = DbCtx.Appointments.Where(obj => obj.ApplicationUserId == userId).ToList();
+            }
+            else
+            {
+                appointmentList = DbCtx.Appointments.ToList();
+            }
+
             ViewBag.appointmentList = appointmentList;
             return View();
         }
 
 
         [HttpGet]
+        [Authorize(Roles = "User")]
         public ActionResult New(int? id)
         {
             if (id.HasValue)
@@ -35,16 +46,17 @@ namespace Appointments_management_system.Controllers
                     return HttpNotFound("There is no doctor with this id!");
                 }
 
-                ViewBag.DoctorLastName = doctor.LastName;
-                ViewBag.DoctorFirstName = doctor.FirstName;
-
                 AppointmentRequestModel appointmentRequestModel = new AppointmentRequestModel
                 {
                     DoctorId = (int)id,
-                    Date = new DateTime(2021, 1, 1),
+                    Date = DateTime.Now,
                     ChosenAppointmentHour = "00:00",
-                    AppointmentHours = new List<SelectListItem>()
-                };
+                    AppointmentHours = new List<SelectListItem>(),
+                    DoctorFirstName = doctor.FirstName,
+                    DoctorLastName = doctor.FirstName,
+                    City = doctor.Clinic.Address.City,
+                    ClinicName = doctor.Clinic.Name
+            };
 
                 return View(appointmentRequestModel);
             }
@@ -52,10 +64,12 @@ namespace Appointments_management_system.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "User")]
         public ActionResult New(AppointmentRequestModel request)
         {
             try
             {
+                request.AppointmentHours = new List<SelectListItem>();
                 if (ModelState.IsValid)
                 {
                     Appointment appointment = new Appointment
@@ -70,7 +84,7 @@ namespace Appointments_management_system.Controllers
                     DbCtx.Appointments.Add(appointment);
 
                     DbCtx.SaveChanges();
-                    return RedirectToAction("New", "Appointment");
+                    return RedirectToAction("Index", "Clinic");
                 }
                 return View(request);
             }
@@ -81,6 +95,7 @@ namespace Appointments_management_system.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "User,Admin")]
         public ActionResult Edit(int? id)
         {
             if (id.HasValue)
@@ -96,10 +111,15 @@ namespace Appointments_management_system.Controllers
                 {
                     AppointmentId = (int)id,
                     DoctorId = appointment.DoctorId,
+                    ClinicName = appointment.Doctor.Clinic.Name,
+                    City = appointment.Doctor.Clinic.Address.City,
+                    DoctorLastName = appointment.Doctor.LastName,
+                    DoctorFirstName = appointment.Doctor.FirstName,
                     Date = appointment.AppointmentDate,
                     Details = appointment.Details,
                     ChosenAppointmentHour = appointment.AppointmentHour,
-                    AppointmentHours = GetAllAvailableHoursForEdit(appointment.AppointmentDate, appointment.DoctorId)
+                  //  AppointmentHours = GetAllAvailableHoursForEdit(appointment.AppointmentDate, appointment.DoctorId
+                    AppointmentHours = new List<SelectListItem>()
                 };
 
                 return View(request);
@@ -108,10 +128,12 @@ namespace Appointments_management_system.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "User,Admin")]
         public ActionResult Edit(int id, AppointmentRequestModel request)
         {
             try
             {
+                request.AppointmentHours = new List<SelectListItem>();
                 if (ModelState.IsValid)
                 {
                     Appointment appointment = DbCtx.Appointments.Find(id);
@@ -135,19 +157,25 @@ namespace Appointments_management_system.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "User,Admin")]
         public ActionResult Details(int? id)
         {
-            if(id.HasValue)
+            if (id.HasValue)
             {
                 Appointment appointment = DbCtx.Appointments.Find(id);
-                if(appointment == null)
+                if (appointment == null)
                 {
                     return HttpNotFound("Couldn't find the appointment with id " + id.ToString() + "!");
                 }
-                Speciality speciality = DbCtx.Specialities.Find(appointment.Doctor.SpecialityId);
 
-                ViewBag.SpecialityName = speciality.SpecialityName;
-                return View(appointment);
+                if (User.Identity.GetUserId() == appointment.ApplicationUserId || User.IsInRole("Admin"))
+                {
+                    Speciality speciality = DbCtx.Specialities.Find(appointment.Doctor.SpecialityId);
+
+                    ViewBag.SpecialityName = speciality.SpecialityName;
+                    return View(appointment);
+                }
+                return RedirectToAction("Index", "Appointment");
             }
             return HttpNotFound("Missing appointment id parameter!");
         }
@@ -163,26 +191,30 @@ namespace Appointments_management_system.Controllers
                 {
                     return HttpNotFound("Couldn't find the appointment with id = " + id.ToString() + "!");
                 }
-                DbCtx.Appointments.Remove(appointment);
 
-                DbCtx.SaveChanges();
+                if (User.Identity.GetUserId() == appointment.ApplicationUserId || User.IsInRole("Admin"))
+                {
+                    DbCtx.Appointments.Remove(appointment);
+                    DbCtx.SaveChanges();
+                }
+
                 return RedirectToAction("Index", "Appointment");
             }
             return HttpNotFound("Missing appointment id parameter!");
         }
 
-        [NonAction]
-        public IEnumerable<SelectListItem> GetAllAvailableHoursForEdit(DateTime? date, int doctorId)
+     
+        public JsonResult GetAllAvailableHoursForEdit(DateTime? date, int doctorId, int appointmentId)
         {
-            var selectList = new List<SelectListItem>();
+            var selectList = new List<string>();
 
-            var AppointmentHourList = new List<String> { "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00" };
+            var AppointmentHourList = new List<String> { "10:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00" };
 
             Doctor doctor = DbCtx.Doctors.Find(doctorId);
 
             if (doctor == null)
             {
-                return new List<SelectListItem>();
+                return Json(new List<string>(), JsonRequestBehavior.AllowGet);
             }
 
             // get the doctor's appointment list on that date
@@ -193,23 +225,24 @@ namespace Appointments_management_system.Controllers
             // get the available hours
             var remainingHours = AppointmentHourList.Except(appointmentList).ToList();
 
+            // add the current appointment hour
+            remainingHours.Add(DbCtx.Appointments.Find(appointmentId).AppointmentHour);
+
+            remainingHours.Sort();
+
             foreach (string hour in remainingHours)
             {
                 // build the dropDownList elements
-                selectList.Add(new SelectListItem
-                {
-                    Value = hour,
-                    Text = hour,
-                });
+                selectList.Add(hour);
             }
 
-            return selectList;
+            return Json(selectList, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetAllAvailableHours(DateTime? date, int doctorId)
+        public JsonResult GetAllAvailableHours(DateTime? date, int doctorId)
         {
             var selectList = new List<string>();
-            var AppointmentHourList = new List<String> { "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00" };
+            var AppointmentHourList = new List<String> {  "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00" };
 
             Doctor doctor = DbCtx.Doctors.Find(doctorId);
 

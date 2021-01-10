@@ -4,7 +4,7 @@
 }
 
 <h2>@ViewBag.Title</h2>
-<br/>
+<br />
 
 @if (ViewBag.Doctors.Count != 0)
 {
@@ -15,6 +15,11 @@
                 <th>Last Name</th>
                 <th>First Name</th>
                 <th>Speciality</th>
+                <th>Details</th>
+                @if (User.IsInRole("User"))
+                {
+                    <th>Appointment</th>
+                }
             </tr>
         </thead>
         <tbody>
@@ -30,6 +35,13 @@
                         <td>
                             @Html.ActionLink("Details", "Details", "Doctor", new { id = doctor.DoctorId }, null)
                         </td>
+
+                        @if (User.IsInRole("User"))
+                        {
+                            <td>
+                                @Html.ActionLink("Make an appointment", "New", "Appointment", new { id = doctor.DoctorId }, null)
+                            </td>
+                        }
                     </tr>
                     count = count + 1;
                 }
@@ -40,4 +52,13 @@
 else
 {
     <p>There are no doctors!</p>
+}
+<br />
+
+@if (User.IsInRole("Admin"))
+{
+    using (Html.BeginForm(actionName: "New", controllerName: "Doctor", method: FormMethod.Get))
+    {
+        <button class="btn btn-info">New doctor</button>
+    }
 }

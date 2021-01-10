@@ -1,14 +1,28 @@
 ﻿@model Appointments_management_system.Models.AppointmentRequestModel
 @{
-    ViewBag.Title = "Make a new appointment for dr. " + ViewBag.DoctorLastName + " " + ViewBag.DoctorFirstName;
+    ViewBag.Title = "Make a new appointment for dr. " + Model.DoctorLastName + " " + Model.DoctorFirstName;
 }
 <h2>@ViewBag.Title</h2>
+<br />
+<br />
+
+@Html.Label("Clinic", "Clinic:")
+@Html.DisplayFor(obj => obj.ClinicName)
+<br />
+
+@Html.Label("City", "City:")
+@Html.DisplayFor(obj => obj.City)
 <br />
 <br />
 
 @using (Html.BeginForm(actionName: "New", controllerName: "Appointment", method: FormMethod.Post))
 {
     @Html.HiddenFor(model => model.DoctorId)
+    @Html.HiddenFor(model => model.DoctorLastName)
+    @Html.HiddenFor(model => model.DoctorFirstName)
+    @Html.HiddenFor(model => model.City)
+    @Html.HiddenFor(model => model.ClinicName)
+
 
     @Html.Label("Date", "Pick a date:")
     <br />
@@ -17,7 +31,7 @@
     <br />
 
     @Html.Label("Hour", "Pick an hour:")
-    @Html.DropDownListFor(mv => mv.ChosenAppointmentHour, new SelectList(Model.AppointmentHours, "Value", "Value"), new { @class = "form-control" })
+    @Html.DropDownListFor(mv => mv.ChosenAppointmentHour, new SelectList(Model.AppointmentHours, "Value", "Value"), "Choose an hour", new { @class = "form-control" })
     <br />
 
     @Html.Label("Details", "Details:")
@@ -50,17 +64,40 @@
                     type: 'GET',
                     data: { date: datetime, doctorId: @Model.DoctorId},
                     success: function (data) {
-                        let dropdown = document.getElementById('ChosenAppointmentHour');
-                        dropdown.length = 0;
-                        console.log(data);
-
-                         for (i = 0; i < data.length; i++) {
-                             var opt = new Option(data[i], data[i]);
-                             dropdown.append(opt);
-                        }
+                        $("#ChosenAppointmentHour").empty();
+                        $(data).each(function ()
+                        {
+                            var selectedHour = '@Html.Raw(Model.ChosenAppointmentHour)';
+                            if (selectedHour == this) {
+                                $("#ChosenAppointmentHour").append($("<option selected=true></option>").val(this).html(this));
+                            } else {
+                                $("#ChosenAppointmentHour").append($("<option></option>").val(this).html(this));
+                            }
+                        });
                     }
                 })
             })
+
+            $('#ChosenAppointmentHour').ready(function (e) {
+                let datetime = $(".datepicker").datepicker("getDate").toDateString();
+                $.ajax({
+                    url: '@Url.Action("GetAllAvailableHours","Appointment")',
+                    type: 'GET',
+                    data: { date: datetime, doctorId: @Model.DoctorId},
+                    success: function (data) {
+                        $("#ChosenAppointmentHour").empty();
+                        $(data).each(function ()
+                        {
+                            var selectedHour = '@Html.Raw(Model.ChosenAppointmentHour)';
+                            if (selectedHour == this) {
+                                $("#ChosenAppointmentHour").append($("<option selected=true></option>").val(this).html(this));
+                            } else {
+                                $("#ChosenAppointmentHour").append($("<option></option>").val(this).html(this));
+                            }
+                        });
+                    }
+                })
+            });
         });
     </script>
 }

@@ -43,6 +43,7 @@ else
             <tr>
                 <th>#</th>
                 <th>Speciality</th>
+                <th>Doctors</th>
             </tr>
         </thead>
         <tbody>
@@ -63,6 +64,11 @@ else
             }
         </tbody>
     </table>
+}
+
+
+@if (User.IsInRole("Admin"))
+{
 
     using (Html.BeginForm(actionName: "Edit", controllerName: "Clinic", method: FormMethod.Get, routeValues: new { id = Model.ClinicId }))
     {
@@ -74,6 +80,4 @@ else
         @Html.HttpMethodOverride(HttpVerbs.Delete)
         <button style="margin-right:5px" class="btn btn-info col-lg-1" type="submit">Delete</button>
     }
-
-
 }
