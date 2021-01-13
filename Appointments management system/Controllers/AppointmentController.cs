@@ -17,16 +17,17 @@ namespace Appointments_management_system.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            List<Appointment> appointmentList;
+            List<Appointment> appointmentList = new List<Appointment>();
             if (User.IsInRole("User"))
             {
                 var userId = this.User.Identity.GetUserId();
                 appointmentList = DbCtx.Appointments.Where(obj => obj.ApplicationUserId == userId).ToList();
             }
-            else
+            else if (User.IsInRole("Admin"))
             {
                 appointmentList = DbCtx.Appointments.ToList();
             }
+            
 
             ViewBag.appointmentList = appointmentList;
             return View();
@@ -105,6 +106,11 @@ namespace Appointments_management_system.Controllers
                 if (appointment == null)
                 {
                     return HttpNotFound("Couldn't find the appointment with id = " + id.ToString() + "!");
+                }
+
+                if(appointment.ApplicationUserId != this.User.Identity.GetUserId())
+                {
+                    return RedirectToAction("Index", "Appointment");
                 }
 
                 AppointmentRequestModel request = new AppointmentRequestModel

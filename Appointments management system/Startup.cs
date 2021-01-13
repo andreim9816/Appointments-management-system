@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
 using Owin;
+using System.Collections.Generic;
 
 [assembly: OwinStartupAttribute(typeof(Appointments_management_system.Startup))]
 namespace Appointments_management_system
@@ -32,10 +33,11 @@ namespace Appointments_management_system
                 // se adauga utilizatorul administrator
                 var user = new ApplicationUser();
                 user.CNP = "1234567891012";
-                user.LastName = "AdminLastName";
-                user.FirstName = "AdminFirstName";
+                user.LastName = "Adminlastname";
+                user.FirstName = "Adminfirstname";
                 user.UserName = "admin@admin.com";
                 user.Email = "admin@admin.com";
+                user.Appointments = new List<Appointment>();
                 var adminCreated = userManager.Create(user, "Parola2020!");
                 if (adminCreated.Succeeded)
                 {

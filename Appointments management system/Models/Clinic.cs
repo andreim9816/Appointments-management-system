@@ -17,7 +17,7 @@ namespace Appointments_management_system.Models
         [Required(ErrorMessage = "Clinic name must exist!")]
         [MinLength(5, ErrorMessage = "Clinic name should be at least 5 characters long"),
         MaxLength(30, ErrorMessage = "Clinic name should have maximum 30 characters")]
-        [RegularExpression(@"^[A-Z][a-zA-Z\s]*$", ErrorMessage = "Clinic name should start with Capital letter and can only contains letters and spaces")]
+        [RegularExpression(@"^[A-Z][a-zA-Z\s]*[a-zA-Z]$", ErrorMessage = "Clinic name should start with Capital letter and can only contains letters and spaces")]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Phone number must exist!")]

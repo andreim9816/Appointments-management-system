@@ -14,6 +14,7 @@
                 <th>#</th>
                 <th>Last Name</th>
                 <th>First Name</th>
+                <th>Details</th>
                 @if (User.IsInRole("User"))
                 {
                     <th>Appointment</th>
@@ -29,24 +30,27 @@
                 int count = 1;
                 foreach (var doctor in ViewBag.doctorList)
                 {
-                    <tr>
-                        <td>@count</td>
-                        <td>@doctor.LastName</td>
-                        <td>@doctor.FirstName</td>
-                        @if (User.IsInRole("User"))
-                        {
+                        <tr>
+                            <td>@count</td>
+                            <td>@doctor.LastName</td>
+                            <td>@doctor.FirstName</td>
                             <td>
-                                @Html.ActionLink("Make an appointment", "New", "Appointment", new { id = doctor.DoctorId }, null)
+                                @Html.ActionLink("Details", "Details", "Doctor", new { id = doctor.DoctorId }, null)
                             </td>
-                        }
+                            @if (User.IsInRole("User"))
+                            {
+                                <td>
+                                    @Html.ActionLink("Make an appointment", "New", "Appointment", new { id = doctor.DoctorId }, null)
+                                </td>
+                            }
 
-                        @if(User.IsInRole("Admin"))
-                        {
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", "Doctor", new { id = doctor.DoctorId }, null)
-                    </td>
-                        }
-                    </tr>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", "Doctor", new { id = doctor.DoctorId }, null)
+                                </td>
+                            }
+                        </tr>
                     count = count + 1;
                 }
             }

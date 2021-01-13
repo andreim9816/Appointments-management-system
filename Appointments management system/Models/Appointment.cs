@@ -13,8 +13,8 @@ namespace Appointments_management_system.Models
         public int AppointmentId { get; set; }
 
         [Required(ErrorMessage = "Appointment must be set")]
-/*        [AppointmentDateValidator]
-*/        public DateTime AppointmentDate { get; set; }
+        [AppointmentDateValidator]
+        public DateTime AppointmentDate { get; set; }
 
         [Required(ErrorMessage = "Hour must be set")]
         public string AppointmentHour { get; set; }

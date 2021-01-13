@@ -161,7 +161,8 @@ namespace Appointments_management_system.Controllers
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     UserName = model.Email,
-                    Email = model.Email
+                    Email = model.Email,
+                    Appointments = new List<Appointment>()
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)

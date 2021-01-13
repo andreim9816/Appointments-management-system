@@ -22,14 +22,17 @@ namespace Appointments_management_system.Models
         [Required(ErrorMessage = "First name must exist!")]
         [MinLength(3, ErrorMessage = "First name should be at least 3 characters long"),
         MaxLength(20, ErrorMessage = "First name should have maximum 20 characters")]
-        [RegularExpression(@"^[A-Z][a-zA-Z]+$", ErrorMessage = "First name should start with Capital letter and can only contains letters")]
+        [RegularExpression(@"^[A-Z][a-z]+$", ErrorMessage = "First name should start with Capital letter and can only contains letters")]
         public string FirstName { get; set; }
 
         [Required(ErrorMessage = "Last name must exist!")]
         [MinLength(3, ErrorMessage = "Last name should be at least 3 characters long"),
         MaxLength(20, ErrorMessage = "Last name should have maximum 20 characters")]
-        [RegularExpression(@"^[A-Z][a-zA-Z]+$", ErrorMessage = "Last name should start with Capital letter and can only contains letters")]
+        [RegularExpression(@"^[A-Z][a-z]+$", ErrorMessage = "Last name should start with Capital letter and can only contains letters")]
         public string LastName { get; set; }
+        [Required(ErrorMessage = "CNP must exist!")]
+        [StringLength(13, ErrorMessage ="CNP should have exactly 13 digits!")]
+        [RegularExpression(@"^[1-9][0-9]{12}$", ErrorMessage = "CNP should be made of 13 digits!")]
         public string CNP { get; set; }
         public virtual ICollection<Appointment> Appointments { get; set; }
     }
@@ -92,7 +95,7 @@ namespace Appointments_management_system.Models
                 {
                     new Appointment
                     {
-                        AppointmentDate = new System.DateTime(2021, 2, 15),
+                        AppointmentDate = new System.DateTime(2021, 2, 27),
                         AppointmentHour = "15:00",
                         Details = "Control de rutina"
                     }

@@ -40,9 +40,13 @@ namespace Appointments_management_system.Models
         public string DoctorLastName { get; set; }
 
         [Required(ErrorMessage = "Clinic name must exist!")]
+        [RegularExpression(@"^[A-Z][a-zA-Z\s]*[a-zA-Z]$", ErrorMessage = "Clinic name should start with Capital letter and can only contains letters and spaces")]
         public string ClinicName { get; set; }
 
         [Required(ErrorMessage = "City must exist!")]
+        [MinLength(3, ErrorMessage = "City name should be at least 3 characters long"),
+        MaxLength(30, ErrorMessage = "City name should have maximum 30 characters")]
+        [RegularExpression(@"^[A-Z][a-zA-Z\s]*[a-zA-Z]$", ErrorMessage = "City should only contain letters and spaces!")]
         public string City { get; set; }
 
         public IEnumerable<SelectListItem> AppointmentHours { get; set; }
