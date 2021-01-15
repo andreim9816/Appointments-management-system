@@ -21,7 +21,7 @@ namespace Appointments_management_system.Models
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Phone number must exist!")]
-        [RegularExpression(@"07([0-9]){8}", ErrorMessage = "Please enter a valid phone number! It should start with 07")]
+        [RegularExpression(@"^07([0-9]){8}$", ErrorMessage = "Please enter a valid phone number! It should start with 07")]
         public string PhoneNumber { get; set; }
 
         [Required]

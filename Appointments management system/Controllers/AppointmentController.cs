@@ -54,7 +54,7 @@ namespace Appointments_management_system.Controllers
                     ChosenAppointmentHour = "00:00",
                     AppointmentHours = new List<SelectListItem>(),
                     DoctorFirstName = doctor.FirstName,
-                    DoctorLastName = doctor.FirstName,
+                    DoctorLastName = doctor.LastName,
                     City = doctor.Clinic.Address.City,
                     ClinicName = doctor.Clinic.Name
             };
@@ -108,7 +108,7 @@ namespace Appointments_management_system.Controllers
                     return HttpNotFound("Couldn't find the appointment with id = " + id.ToString() + "!");
                 }
 
-                if(appointment.ApplicationUserId != this.User.Identity.GetUserId())
+                if(appointment.ApplicationUserId != this.User.Identity.GetUserId() && !User.IsInRole("Admin"))
                 {
                     return RedirectToAction("Index", "Appointment");
                 }
@@ -214,7 +214,7 @@ namespace Appointments_management_system.Controllers
         {
             var selectList = new List<string>();
 
-            var AppointmentHourList = new List<String> { "10:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00" };
+            var AppointmentHourList = new List<String> { "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00" };
 
             Doctor doctor = DbCtx.Doctors.Find(doctorId);
 

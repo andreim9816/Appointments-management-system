@@ -179,53 +179,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202101040843142_InitialCreate.cs" />
-    <Compile Include="Migrations\202101040843142_InitialCreate.Designer.cs">
-      <DependentUpon>202101040843142_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202101040851340_Commented fields.cs" />
-    <Compile Include="Migrations\202101040851340_Commented fields.Designer.cs">
-      <DependentUpon>202101040851340_Commented fields.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202101040853053_Uncomment fields.cs" />
-    <Compile Include="Migrations\202101040853053_Uncomment fields.Designer.cs">
-      <DependentUpon>202101040853053_Uncomment fields.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202101071859312_stuff.cs" />
-    <Compile Include="Migrations\202101071859312_stuff.Designer.cs">
-      <DependentUpon>202101071859312_stuff.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202101071946174_Added one to many relationship user appointment.cs" />
-    <Compile Include="Migrations\202101071946174_Added one to many relationship user appointment.Designer.cs">
-      <DependentUpon>202101071946174_Added one to many relationship user appointment.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202101072000008_Modified Appointment fields.cs" />
-    <Compile Include="Migrations\202101072000008_Modified Appointment fields.Designer.cs">
-      <DependentUpon>202101072000008_Modified Appointment fields.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202101081136227_Changed ApplicationUserId type in Appointment model.cs" />
-    <Compile Include="Migrations\202101081136227_Changed ApplicationUserId type in Appointment model.Designer.cs">
-      <DependentUpon>202101081136227_Changed ApplicationUserId type in Appointment model.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202101081415351_Changed ChosenAppointmentHour type.cs" />
-    <Compile Include="Migrations\202101081415351_Changed ChosenAppointmentHour type.Designer.cs">
-      <DependentUpon>202101081415351_Changed ChosenAppointmentHour type.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202101100000189_Cleanup%3b regex.cs" />
-    <Compile Include="Migrations\202101100000189_Cleanup%3b regex.Designer.cs">
-      <DependentUpon>202101100000189_Cleanup%3b regex.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202101100011066_details.cs" />
-    <Compile Include="Migrations\202101100011066_details.Designer.cs">
-      <DependentUpon>202101100011066_details.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202101100043031_Added another validator.cs" />
-    <Compile Include="Migrations\202101100043031_Added another validator.Designer.cs">
-      <DependentUpon>202101100043031_Added another validator.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202101100111463_more.cs" />
-    <Compile Include="Migrations\202101100111463_more.Designer.cs">
-      <DependentUpon>202101100111463_more.cs</DependentUpon>
+    <Compile Include="Migrations\202101151144534_final.cs" />
+    <Compile Include="Migrations\202101151144534_final.Designer.cs">
+      <DependentUpon>202101151144534_final.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -383,45 +339,12 @@
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202101040843142_InitialCreate.resx">
-      <DependentUpon>202101040843142_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202101040851340_Commented fields.resx">
-      <DependentUpon>202101040851340_Commented fields.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202101040853053_Uncomment fields.resx">
-      <DependentUpon>202101040853053_Uncomment fields.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202101071859312_stuff.resx">
-      <DependentUpon>202101071859312_stuff.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202101071946174_Added one to many relationship user appointment.resx">
-      <DependentUpon>202101071946174_Added one to many relationship user appointment.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202101072000008_Modified Appointment fields.resx">
-      <DependentUpon>202101072000008_Modified Appointment fields.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202101081136227_Changed ApplicationUserId type in Appointment model.resx">
-      <DependentUpon>202101081136227_Changed ApplicationUserId type in Appointment model.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202101081415351_Changed ChosenAppointmentHour type.resx">
-      <DependentUpon>202101081415351_Changed ChosenAppointmentHour type.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202101100000189_Cleanup%3b regex.resx">
-      <DependentUpon>202101100000189_Cleanup%3b regex.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202101100011066_details.resx">
-      <DependentUpon>202101100011066_details.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202101100043031_Added another validator.resx">
-      <DependentUpon>202101100043031_Added another validator.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202101100111463_more.resx">
-      <DependentUpon>202101100111463_more.cs</DependentUpon>
-    </EmbeddedResource>
+    <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <EmbeddedResource Include="Migrations\202101151144534_final.resx">
+      <DependentUpon>202101151144534_final.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

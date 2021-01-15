@@ -37,7 +37,12 @@
                     {
                         <li>@Html.ActionLink("Users", "Index", "Account")</li>
                     }
-                    <li>@Html.ActionLink("Appointments", "Index", "Appointment")</li>
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Appointments", "Index", "Appointment")</li>
+                    
+                    }
 
                 </ul>
                 @Html.Partial("_LoginPartial")

@@ -65,11 +65,11 @@
                     type: 'GET',
                     data: { date: datetime, doctorId: @Model.DoctorId, appointmentId: @Model.AppointmentId},
                     success: function (data) {
-                        console.log(data);
+@*                        console.log(data);*@
                         $("#ChosenAppointmentHour").empty();
 
                         $(data).each(function () {
-                            console.log(this);
+                           @* console.log(this);*@
                             $("#ChosenAppointmentHour").append($("<option></option>").val(this).html(this));
                         });
 

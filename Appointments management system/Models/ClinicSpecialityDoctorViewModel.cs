@@ -17,13 +17,13 @@ namespace Appointments_management_system.Models
         [Required(ErrorMessage = "Last name must exist!")]
         [MinLength(3, ErrorMessage = "Last name should be at least 3 characters long"),
         MaxLength(20, ErrorMessage = "Last name should have maximum 20 characters")]
-        [RegularExpression(@"^[A-Z][a-zA-Z]+$", ErrorMessage = "Last name should start with Capital letter and can only contains letters")]
+        [RegularExpression(@"^[A-Z][a-z]+$", ErrorMessage = "Last name should start with Capital letter and can only contains letters")]
         public string LastName { get; set; }
 
         [Required(ErrorMessage = "First name must exist!")]
         [MinLength(3, ErrorMessage = "First name should be at least 3 characters long"),
         MaxLength(20, ErrorMessage = "First name should have maximum 20 characters")]
-        [RegularExpression(@"^[A-Z][a-zA-Z]+$", ErrorMessage = "First name should start with Capital letter and can only contains letters")]
+        [RegularExpression(@"^[A-Z][a-z]+$", ErrorMessage = "First name should start with Capital letter and can only contains letters")]
         public string FirstName { get; set; }
 
         [Required(ErrorMessage = "Phone number must exist!")]
